@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>À propos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo1.png" width="125px" alt="Logo Mon Sac"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="products.html">Produits</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="account.html">Compte</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html"><img src="images/cart.png" width="30px" height="30px" alt="Panier"></a>
+            <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu">
+        </div>
+    </div>
+
+
+        <div class="container-about">
+            <h1>À propos de TuniFormatique</h1>
+            <br><br><br>
+            <p>Mon sac était une idée de groupe des étudiantes qui voulaient investir dans le domaine de l'informatique en vendant des PC, composants, accessoires & plus avec un profit minime sur le marché et en attirant le plus grand nombre de clients possible grâce à un service fiable et rapide.</p>
+            <p>L'idée a été réalisée en 2025</p>
+            <p>Les fondatrices :</p>
+            <div class="founders">
+                <div class="founder">
+                    <img src="images/founder1.png" alt="Amal Sehli" class="founder-img">
+                    <p>Nour  Mannai</p>
+                </div>
+                <div class="founder">
+                    <img src="images/founder2.png" alt="Amal Sehli" class="founder-img">
+                    <p>Rania Chamakh</p>
+                </div>
+                <div class="founder">
+                    <img src="images/founder3.png" alt="Amal Sehli" class="founder-img">
+                    <p>Wiem Charfi</p>
+                </div>
+                <div class="founder">
+                    <img src="images/founder4.png" alt="Amal Sehli" class="founder-img">
+                    <p>Ilef Guermezi</p>
+                </div>
+                                <div class="founder">
+                    <img src="images/founder5.png" alt="Amal Sehli" class="founder-img">
+                    <p>Eya Hamzaoui</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Téléchargez notre application</h3>
+                    <p>Téléchargez l'application pour Android et iOS</p>
+                    <div class="app-logo">
+                        <img src="images/play-store.png" alt="Play Store">
+                        <img src="images/app-store.png" alt="App Store">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png" alt="Logo">
+                <p>Notre mission est de rendre durablement le plaisir <br>et les avantages de technologie accessibles à tous</p>                </div>
+                <div class="footer-col-4">
+                    <h3>Suivez-nous :</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">Copyright 2025 - TuniFormatique | Site e-commerce</p>
+        </div>
+    </div>
+
+    <!-- JS pour menu toggle -->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px") {
+                MenuItems.style.maxHeight = "200px";
+            } else {
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+    </script>
+</body>
+</html>
