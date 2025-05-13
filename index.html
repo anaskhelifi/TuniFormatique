@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+</head>
+<body>
+    <div class="header">
+    <!-- Header -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo1.png" width="125px" alt="Logo Mon Sac"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="products.html">Produits</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="account.html">Compte</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html"><img src="images/cart.png" width="30px" height="30px" alt="Panier"></a>
+            <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu">
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-2">
+                <h1>Votre univers informatique<br> en un clic</h1>
+                <p>La performance entre vos mains — PC, composants, accessoires & plus.</p>
+                    <p>Boostez votre productivité avec la technologie de demain.
+                </p>
+                    <a href="products.html" class="btn">Explorez maintenant ! &#8594;</a>
+            </div>
+        </div>
+    </div>
+    </div>
+<!-------Catégories en vedette----->
+<!-------Produits en vedette----->
+<div class="small-container">
+    <h2 class="title">Produits en vedette</h2>
+    <div class="row">
+        <div class="col-4">
+            <a href="product details 1.html"><img src="images/product1.png"></a>
+            <a href="product details 1.html"><h4>PC portable Gaming - MSI GP60 2PE Leopard</h4></a>
+            <p>2500.00 TND</p>
+        </div>
+        <div class="col-4">
+            <a href="product details 2.html"><img src="images/product2.jpg"></a>
+            <a href="product details 2.html"><h4>Pc portable -L’Asus X515FA </h4></a>
+            <p>1200.00 TND</p>
+        </div>
+        <div class="col-4">
+            <a href="product details 3.html"><img src="images/product3.jpg"></a>
+            <a href="product details 3.html"><h4>Smartphone-iPhone 13</h4></a>
+            <p>1100.00 TND</p>
+        </div>
+        <div class="col-4">
+            <a href="product details 4.html"><img src="images/product4.png"></a>
+            <a href="product details 4.html"><h4>Imprimante -Les HP DeskJet 2710 et 2720 </h4></a>
+            <p>580.00 TND</p>
+        </div>
+    </div>
+    <h2 class="title">Derniers produits</h2>
+    <div class="row">
+        <div class="col-4">
+            <a href="product details 5.html"><img src="images/product5.png"></a>
+            <a href="product details 5.html"><h4>Pc portable -HP Pavilion 15-cs30005nk</h4></a>
+            <p>2200.00 TND</p>
+        </div>
+    </div>
+</div>
+<!---Offre-->
+<div class="offer">
+    <div class="small-container">
+        <div class="row">
+            <div class="col-2">
+                <img src="images/product11.png" class="offer-img">
+            </div>
+            <div class="col-2">
+                <p>Exclusivement disponible sur TuniFormatique</p>
+                <h1>PC portable Gaming - MSI GP60 2PE Leopardx</h1>
+                <small>Cette offre inclut 2 produits avec -50% sur le deuxième produit</small>
+                <a href="" class="btn">Achetez maintenant &#8594;</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Marques-->
+<div class="brands">
+    <div class="small-container">
+        <div class="row">
+            <div class="col-5">
+                <img src="images/facebook.jpg"> 
+            </div>
+            <div class="col-5">
+                <img src="images/twitter.jpg">
+            </div>
+            <div class="col-5">
+                <img src="images/instagram.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer-->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download APP for Android and IOS mobile phone</p>
+                <div class="app-logo">
+                    <img src="images/play-store.png">
+                    <img src="images/app-store.png">
+                </div>
+            </div>
+            <div class="footer-col-2">
+                <img src="images/logo.png">
+                <p>Notre mission est de rendre durablement le plaisir <br>et les avantages de technologie accessibles à tous</p>
+            </div>
+            <div class="footer-col-4">
+                <h3>Follow Us:</h3>
+                <ul>
+                    <li>facebook</li>
+                    <li>twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <p class="copyright">copyright 2025 - TuniFormatique | E-commerce site</p>
+    </div>
+</div>
+<!--JS pour le menu toggle-->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px")
+            {
+                MenuItems.style.maxHeight = "200px";
+            }
+            else
+            {
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+    </script>
+</body>
+</html>
