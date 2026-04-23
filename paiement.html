@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement | TuniFormatique</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques au formulaire de paiement */
+        .checkout-container { max-width: 1000px; margin: 30px auto; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px; }
+        .payment-form, .order-summary { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); flex: 1; min-width: 320px; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; outline: none; transition: 0.3s; }
+        
+        /* États de validation */
+        input.valid { border-color: #28a745 !important; background-color: #f8fff9; }
+        input.invalid { border-color: #dc3545 !important; background-color: #fff8f8; }
+        
+        .error-msg { color: #dc3545; font-size: 13px; display: none; margin-top: 5px; }
+        .success-msg { color: #28a745; font-size: 13px; display: none; margin-top: 5px; }
+
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .total-row { font-weight: bold; font-size: 1.3em; color: #800020; border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; }
+        
+        #cardDetails { background: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid #800020; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo1.png" width="125px"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-container">
+        <div class="payment-form">
+            <h2 style="color: #800020;">Détails de livraison</h2><br>
+            <form id="paymentForm" onsubmit="validateAndProcess(event)">
+                
+                <div class="input-group">
+                    <label>Nom Complet</label>
+                    <input type="text" id="custName" placeholder="Ahmed Ben Salah" required 
+                           oninput="validateField('custName', value.trim().length >= 3)">
+                    <span id="custNameError" class="error-msg">Veuillez entrer au moins 5 caractères.</span>
+                    <span id="custNameSuccess" class="success-msg">✔ Nom valide</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>Téléphone (8 chiffres)</label>
+                    <input type="text" id="custPhone" placeholder="Ex: 22123456" maxlength="8" required 
+                           oninput="validateField('custPhone', /^[0-9]{8}$/.test(value))">
+                    <span id="custPhoneError" class="error-msg">Numéro invalide (8 chiffres requis).</span>
+                    <span id="custPhoneSuccess" class="success-msg">✔ Numéro valide</span>
+                </div>
+
+                <div class="input-group">
+                    <label>Adresse exacte</label>
+                    <input type="text" id="custAddr" placeholder="N°, Rue, Ville, Gouvernorat" required 
+                           oninput="validateField('custAddr', value.trim().length > 8)">
+                    <span id="custAddrError" class="error-msg">Adresse trop courte.</span>
+                    <span id="custAddrSuccess" class="success-msg">✔ Adresse valide</span>
+                </div>
+
+                <div class="input-group">
+                    <label>Mode de paiement</label>
+                    <select id="payMethod" onchange="toggleCardDetails()">
+                        <option value="cod">Paiement à la livraison (Cash)</option>
+                        <option value="card">Carte Bancaire Online</option>
+                    </select>
+                </div>
+
+                <div id="cardDetails" style="display: none;">
+                    <div class="input-group">
+                        <label>Numéro de carte (16 chiffres)</label>
+                        <input type="text" id="cardNumber" placeholder="4444 0000 1111 2222" maxlength="16"
+                               oninput="validateField('cardNumber', /^[0-9]{16}$/.test(value))">
+                        <span id="cardNumberError" class="error-msg">16 chiffres requis.</span>
+                        <span id="cardNumberSuccess" class="success-msg">✔ Carte valide</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; cursor: pointer; border: none;">Confirmer ma commande</button>
+            </form>
+        </div>
+
+        <div class="order-summary">
+            <h2 style="color: #333;">Résumé</h2><br>
+            <div id="itemsList"></div>
+            <hr style="border: 0.5px solid #eee;">
+            
+            <div class="summary-item" style="margin-top: 15px;">
+                <span>Sous-total Panier</span>
+                <span id="subtotal">0.000 TND</span>
+            </div>
+            
+            <div class="summary-item">
+                <span>Frais de livraison</span>
+                <span style="color: #28a745; font-weight: bold;">+ 7.000 TND</span>
+            </div>
+            
+            <div class="summary-item total-row">
+                <span>TOTAL FINAL</span>
+                <span id="finalTotal">0.000 TND</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const FRAIS_LIVRAISON = 7.000;
+
+        // Fonction de chargement des données
+        function loadCheckout() {
+            let cart = JSON.parse(localStorage.getItem('tuniCart')) || [];
+            if (cart.length === 0) { window.location.href = "products.html"; return; }
+
+            let subtotal = 0;
+            const itemsList = document.getElementById('itemsList');
+            itemsList.innerHTML = ""; 
+            
+            cart.forEach(item => {
+                let itemTotal = parseFloat(item.price) * parseInt(item.quantity);
+                subtotal += itemTotal;
+                itemsList.innerHTML += `
+                    <div class="summary-item">
+                        <span style="color: #555;">${item.quantity} x ${item.name}</span>
+                        <span>${itemTotal.toFixed(3)} TND</span>
+                    </div>`;
+            });
+
+            document.getElementById('subtotal').innerText = subtotal.toFixed(3) + " TND";
+            document.getElementById('finalTotal').innerText = (subtotal + FRAIS_LIVRAISON).toFixed(3) + " TND";
+        }
+
+        // Fonction de validation en temps réel (Vert / Rouge)
+        function validateField(fieldId, condition) {
+            const input = document.getElementById(fieldId);
+            const error = document.getElementById(fieldId + 'Error');
+            const success = document.getElementById(fieldId + 'Success');
+
+            if (input.value.trim() === "") {
+                input.classList.remove('valid', 'invalid');
+                error.style.display = 'none';
+                success.style.display = 'none';
+            } else if (condition) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                error.style.display = 'none';
+                success.style.display = 'block';
+            } else {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                error.style.display = 'block';
+                success.style.display = 'none';
+            }
+        }
+
+        function toggleCardDetails() {
+            const method = document.getElementById('payMethod').value;
+            document.getElementById('cardDetails').style.display = (method === 'card') ? 'block' : 'none';
+        }
+
+        // Validation finale avant envoi
+        function validateAndProcess(event) {
+            event.preventDefault();
+            
+            const nameOk = document.getElementById('custName').value.trim().length >= 5;
+            const phoneOk = /^[0-9]{8}$/.test(document.getElementById('custPhone').value);
+            const addrOk = document.getElementById('custAddr').value.trim().length > 8;
+            
+            let finalValid = nameOk && phoneOk && addrOk;
+
+            // Verif carte si option choisie
+            if (document.getElementById('payMethod').value === 'card') {
+                const cardOk = /^[0-9]{16}$/.test(document.getElementById('cardNumber').value);
+                if (!cardOk) finalValid = false;
+            }
+
+            if (finalValid) {
+                const finalAmount = document.getElementById('finalTotal').innerText;
+                alert("🎉 Succès !\nVotre commande de " + finalAmount + " a été validée.\nLivraison prévue sous 24/48h.");
+                localStorage.removeItem('tuniCart');
+                window.location.href = "index.html";
+            } else {
+                alert("⚠️ Veuillez corriger les erreurs en rouge avant de confirmer.");
+            }
+        }
+
+        // Initialisation
+        loadCheckout();
+    </script>
+</body>
+</html>
